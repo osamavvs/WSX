@@ -1,6 +1,5 @@
-pyrogram==1.4.16
+https://github.com/pyrogram/pyrogram/archive/v1.4.16.zip
 tgcrypto
-pytgcalls==1.2.1
+https://github.com/pytgcalls/pytgcalls/archive/master.zip
 ntgcalls==1.0.1
 yt-dlp
-ffmpeg-python
