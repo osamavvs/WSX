@@ -1,14 +1,10 @@
 import os, time
-os.environ["TZ"] = "UTC"
-time.tzset()
-import os
-import time
 from pyrogram import Client, filters
 from pytgcalls import PyTgCalls
 from pytgcalls.types import InputStream, AudioPiped
 import yt_dlp
 
-# ضبط المنطقة الزمنية لتفادي مشكلة BadMsgNotification
+# ضبط المنطقة الزمنية
 os.environ["TZ"] = "UTC"
 time.tzset()
 
@@ -23,7 +19,6 @@ app = Client(
 # تهيئة محرك المكالمات الصوتية
 call_py = PyTgCalls(app)
 
-# دالة لتحميل الصوت من يوتيوب
 def download_audio(url):
     ydl_opts = {
         'format': 'bestaudio/best',
@@ -34,7 +29,6 @@ def download_audio(url):
         ydl.download([url])
     return "song.mp3"
 
-# أوامر عربية للتحكم
 @app.on_message(filters.text)
 async def handler(client, message):
     text = message.text.strip()
