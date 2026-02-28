@@ -1,4 +1,5 @@
 pyrogram
 tgcrypto
 ntgcalls
-pytgcalls
+py-tgcalls
+yt-dlp
