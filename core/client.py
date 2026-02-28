@@ -10,7 +10,7 @@ app = Client(
     bot_token=config.BOT_TOKEN
 )
 
-# تشغيل المحرك للنسخة 2.1.0 (الاسم الصحيح هو PyTgCalls وليس Client)
+# هذا هو الاستدعاء الصحيح والوحيد لنسخة 2.1.0
 call_py = PyTgCalls(app)
 
-print("✅ Cristal Music Engine Connected Successfully!")
+print("✅ Cristal Music Engine Connected!")
