@@ -10,24 +10,18 @@ app = Client(
     bot_token=config.BOT_TOKEN
 )
 
-# اكتشاف المحرك وتسميته تلقائياً لتجنب الانهيار
-def get_call_py(app_instance):
-    # قائمة بأسماء الكلاسات المحتملة في مكتبة pytgcalls لعام 2026
-    possible_names = ["PyTgCalls", "Client", "GroupCallFactory"]
-    
-    for name in possible_names:
+# اكتشاف المحرك تلقائياً لتجنب أخطاء Version 2 vs Version 3
+def get_call_instance(app_instance):
+    # قائمة الأسماء الممكنة للمحرك في 2026
+    for name in ["PyTgCalls", "Client", "GroupCallFactory"]:
         if hasattr(pytgcalls, name):
-            attr = getattr(pytgcalls, name)
+            class_attr = getattr(pytgcalls, name)
             print(f"✅ تم اكتشاف المحرك بنجاح: {name}")
-            return attr(app_instance)
+            return class_attr(app_instance)
     
-    # محاولة أخيرة إذا كان الاستيراد يتطلب مساراً داخلياً
-    try:
-        from pytgcalls import PyTgCalls
-        return PyTgCalls(app_instance)
-    except ImportError:
-        from pytgcalls import Client as PyCall
-        return PyCall(app_instance)
+    # محاولة استيراد مباشرة كحل أخير
+    from pytgcalls import PyTgCalls
+    return PyTgCalls(app_instance)
 
 # تشغيل المحرك المكتشف
-call_py = get_call_py(app)
+call_py = get_call_instance(app)
