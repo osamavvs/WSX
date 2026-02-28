@@ -1,14 +1,14 @@
 from pyrogram import Client
-import pytgcalls
-from config import API_ID, API_HASH, BOT_TOKEN
+from pytgcalls import Client as PyTgCallsClient
+import config
 
-# تهيئة تطبيق التليجرام
-app = Client("CristalBot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+# تهيئة التطبيق
+app = Client(
+    "CristalBot",
+    api_id=config.API_ID,
+    api_hash=config.API_HASH,
+    bot_token=config.BOT_TOKEN
+)
 
-# كود ذكي لاكتشاف المحرك الصحيح للنسخة المثبتة
-if hasattr(pytgcalls, "Client"):
-    # للنسخة v3
-    call_py = pytgcalls.Client(app)
-else:
-    # للنسخة v2
-    call_py = pytgcalls.PyTgCalls(app)
+# استخدام الاسم الجديد المتوافق مع إصدار 2026
+call_py = PyTgCallsClient(app)
