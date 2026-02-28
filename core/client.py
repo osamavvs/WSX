@@ -1,5 +1,5 @@
 from pyrogram import Client
-from pytgcalls import PyTgCalls
+from pytgcalls import Client as PyTgCallsClient
 import config
 
 # تهيئة تطبيق التليجرام
@@ -10,7 +10,7 @@ app = Client(
     bot_token=config.BOT_TOKEN
 )
 
-# هذا هو الاستدعاء الصحيح والوحيد لنسخة 2.1.0
-call_py = PyTgCalls(app)
+# استخدام المحرك المتوافق مع نسخة v3 (3.0.0.dev24)
+call_py = PyTgCallsClient(app)
 
-print("✅ Cristal Music Engine Connected!")
+print("✅ Cristal Music Engine v3 Online!")
