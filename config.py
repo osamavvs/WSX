@@ -1,6 +1,4 @@
-import os
-from os import getenv
-
-API_ID = int(getenv("API_ID"))
-API_HASH = getenv("API_HASH")
-STRING_SESSION = getenv("STRING_SESSION")
+API_ID = 24752047 
+API_HASH = "5b8a468627791bdd36a8c361913b0b72"
+BOT_TOKEN = "8721155986:AAHdipR_Xg6YUebhq_FWU3_oeHjyNdePT_c"
+OWNER_ID = 8074717568
