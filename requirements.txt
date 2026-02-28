@@ -3,3 +3,4 @@ tgcrypto
 pytgcalls==2.0.0.post1
 youtube-search-python
 yt-dlp
+httpx==0.24.1
