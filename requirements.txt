@@ -1,4 +1,4 @@
-pyrogram
+pyrogram==1.4.16
 ffmpeg-python
 yt-dlp
-git+https://github.com/pytgcalls/pytgcalls@master
+git+https://github.com/pytgcalls/pytgcalls@dev
