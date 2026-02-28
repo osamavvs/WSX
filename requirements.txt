@@ -1,5 +1,5 @@
 pyrogram
 tgcrypto
-pytgcalls==1.2.1
-ntgcalls==1.0.1
+py-tgcalls
+ntgcalls
 yt-dlp
