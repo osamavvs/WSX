@@ -10,14 +10,18 @@ app = Client(
     bot_token=config.BOT_TOKEN
 )
 
-# اكتشاف المحرك تلقائياً (عشان ما يوقف البوت لو تغيرت نسخة المكتبة)
+# فرض استخدام المحرك المتوافق مع أوامر Start/Stop
 def get_call_instance(app_instance):
-    for name in ["PyTgCalls", "Client", "GroupCallFactory"]:
-        if hasattr(pytgcalls, name):
-            attr = getattr(pytgcalls, name)
-            print(f"✅ تم اكتشاف المحرك: {name}")
-            return attr(app_instance)
-    from pytgcalls import PyTgCalls
-    return PyTgCalls(app_instance)
+    # نحاول جلب PyTgCalls أولاً لأنه هو الذي يحتوي على attribute 'start'
+    if hasattr(pytgcalls, "PyTgCalls"):
+        print("✅ تم اختيار المحرك القياسي: PyTgCalls")
+        return pytgcalls.PyTgCalls(app_instance)
+    elif hasattr(pytgcalls, "Client"):
+        print("✅ تم اختيار المحرك الحديث: Client")
+        return pytgcalls.Client(app_instance)
+    else:
+        # إذا لم يجد شيئاً، نقوم باستيراده قسراً من المسار الرئيسي
+        from pytgcalls import PyTgCalls as FinalTry
+        return FinalTry(app_instance)
 
 call_py = get_call_instance(app)
