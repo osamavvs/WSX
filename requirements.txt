@@ -1,5 +1,5 @@
 pyrogram
 tgcrypto
-pytgcalls==2.2.11
+pytgcalls
 yt-dlp
 ffmpeg-python
