@@ -1,5 +1,6 @@
-from pyrogram import Client
+import sys
 import pytgcalls
+from pyrogram import Client
 import config
 
 # تهيئة تطبيق التليجرام
@@ -10,22 +11,20 @@ app = Client(
     bot_token=config.BOT_TOKEN
 )
 
-# كود ذكي لاكتشاف المحرك مهما كان اسمه
-print(f"DEBUG: Pytgcalls content -> {dir(pytgcalls)}")
-
+# محاولة الاستدعاء المباشر (Direct Access)
 try:
-    # المحاولة 1: الاسم القياسي للنسخ الحديثة
-    from pytgcalls import PyTgCalls
-    call_py = PyTgCalls(app)
-    print("✅ تم التشغيل باستخدام PyTgCalls")
-except ImportError:
+    # الطريقة المتوافقة مع نسخ 2026 المستقرة
+    call_py = pytgcalls.PyTgCalls(app)
+    print("✅ تم التشغيل: PyTgCalls")
+except AttributeError:
     try:
-        # المحاولة 2: الاسم القياسي للنسخ v3
-        from pytgcalls import Client as PyCall
-        call_py = PyCall(app)
-        print("✅ تم التشغيل باستخدام Client")
-    except ImportError:
-        # المحاولة 3: في حال كانت المكتبة داخل مجلد Scaffolding
-        from pytgcalls.main import PyTgCalls as PyCall
-        call_py = PyCall(app)
-        print("✅ تم التشغيل باستخدام main.PyTgCalls")
+        # الطريقة المتوافقة مع نسخ v3
+        call_py = pytgcalls.Client(app)
+        print("✅ تم التشغيل: Client")
+    except AttributeError:
+        # إذا كانت المكتبة مخفية (Hidden class)
+        from pytgcalls.methods import PyTgCalls as MethodCall
+        call_py = MethodCall(app)
+        print("✅ تم التشغيل: Methods.PyTgCalls")
+
+print("🚀 المحرك جاهز للعمل!")
