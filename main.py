@@ -1,27 +1,40 @@
-import asyncio
-from pyrogram import Client, idle
-from pytgcalls import PyTgCalls
-from config import API_ID, API_HASH, STRING_SESSION
+from pyrogram import Client, filters
+from pytgcalls import PyTgCalls, idle
+from pytgcalls.types import InputStream, AudioPiped
+import yt_dlp
 
-app = Client(
-    "MusicUserbot",
-    api_id=API_ID,
-    api_hash=API_HASH,
-    session_string=STRING_SESSION,
-    plugins=dict(root="plugins")
-)
+app = Client("music_bot", api_id=12345, api_hash="your_api_hash", bot_token="your_bot_token")
+call = PyTgCalls(app)
 
-# في الإصدارات الجديدة، لا نحتاج لتمرير app مباشرة هنا أحياناً
-# لكن الطريقة الأكثر استقراراً هي:
-call_py = PyTgCalls(app)
+def download_audio(url):
+    ydl_opts = {
+        'format': 'bestaudio/best',
+        'outtmpl': 'song.mp3',
+        'quiet': True,
+    }
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([url])
+    return "song.mp3"
 
-async def start_bot():
-    print("--------------------------")
-    await app.start()
-    await call_py.start()
-    print("تم تشغيل البوت والمكالمات بنجاح!")
-    print("--------------------------")
-    await idle()
+@app.on_message(filters.text)
+async def handler(client, message):
+    text = message.text.strip()
 
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(start_bot())
+    if text.startswith("شغل"):
+        url = text.replace("شغل", "").strip()
+        file = download_audio(url)
+        await call.join_group_call(
+            message.chat.id,
+            InputStream(
+                AudioPiped(file)
+            )
+        )
+        await message.reply("🎶 تم تشغيل الموسيقى")
+
+    elif text == "وقف":
+        await call.leave_group_call(message.chat.id)
+        await message.reply("⏹️ تم إيقاف الموسيقى")
+
+app.start()
+call.start()
+idle()
