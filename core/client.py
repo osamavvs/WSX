@@ -10,7 +10,7 @@ app = Client(
     bot_token=config.BOT_TOKEN
 )
 
-# تشغيل المحرك للنسخة المستقرة v2
+# تشغيل المحرك للنسخة 2.1.0
 call_py = PyTgCalls(app)
 
-print("✅ Cristal Music Engine Started!")
+print("✅ Cristal Music Engine Connected!")
