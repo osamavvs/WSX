@@ -3,3 +3,4 @@ tgcrypto
 https://github.com/pytgcalls/pytgcalls/archive/master.zip
 ntgcalls==1.0.1
 yt-dlp
+ffmpeg-python
