@@ -10,16 +10,29 @@ app = Client(
     bot_token=config.BOT_TOKEN
 )
 
-# كود استخراج المحرك ديناميكياً (مهما كان اسمه)
-def find_call_client():
-    # يبحث عن أي كلاس داخل المكتبة يبدأ اسمه بـ PyTg أو Client
-    for attr_name in dir(pytgcalls):
-        if attr_name.lower() in ["pytgcalls", "client"]:
-            target = getattr(pytgcalls, attr_name)
-            if callable(target):
-                print(f"✅ Found and using: {attr_name}")
-                return target(app)
-    # إذا فشل البحث الذكي، نستخدم الاستدعاء الخام
-    return pytgcalls.PyTgCalls(app)
+# طباعة محتويات المكتبة في اللوج لنعرف الاسم المخفي
+print(f"DEBUG: Pytgcalls members are: {dir(pytgcalls)}")
 
-call_py = find_call_client()
+def get_call_instance():
+    # في نسخة v3 الحديثة، المحرك غالباً ما يكون Scaffolder أو Client
+    # سنحاول جلب أي كلاس متاح
+    if hasattr(pytgcalls, "Client"):
+        print("✅ Using pytgcalls.Client")
+        return pytgcalls.Client(app)
+    
+    # محاولة جلب المحرك من مسار فرعي (للنسخ الحديثة جداً)
+    try:
+        from pytgcalls import PyTgCalls
+        print("✅ Using standard PyTgCalls")
+        return PyTgCalls(app)
+    except ImportError:
+        # إذا فشل كل شيء، نبحث عن أول كلاس يبدأ بحرف كبير
+        for name in dir(pytgcalls):
+            if name[0].isupper() and name not in ["GroupCallFactory", "Stream"]:
+                target = getattr(pytgcalls, name)
+                print(f"✅ Auto-detected Engine: {name}")
+                return target(app)
+    
+    raise AttributeError("Could not find a valid PyTgCalls class.")
+
+call_py = get_call_instance()
