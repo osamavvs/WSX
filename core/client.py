@@ -1,8 +1,8 @@
 from pyrogram import Client
-from pytgcalls import Client as PyTgCallsClient
+import pytgcalls
 import config
 
-# تهيئة التطبيق
+# تهيئة تطبيق التليجرام
 app = Client(
     "CristalBot",
     api_id=config.API_ID,
@@ -10,5 +10,19 @@ app = Client(
     bot_token=config.BOT_TOKEN
 )
 
-# استخدام الاسم الجديد المتوافق مع إصدار 2026
-call_py = PyTgCallsClient(app)
+# محاولة جلب المحرك بأي طريقة ممكنة (Compatibility Mode)
+try:
+    # للنسخ v3 الحديثة
+    from pytgcalls import Client as PyCall
+    call_py = PyCall(app)
+except ImportError:
+    try:
+        # للنسخ v2 المستقرة
+        from pytgcalls import PyTgCalls
+        call_py = PyTgCalls(app)
+    except ImportError:
+        # إذا كانت المكتبة مخفية في المسار الداخلي
+        from pytgcalls.pytgcalls import PyTgCalls as PyCall
+        call_py = PyCall(app)
+
+print("✅ تم اكتشاف محرك المكالمات وتشغيله بنجاح!")
