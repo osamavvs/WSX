@@ -3,6 +3,7 @@ from pyrogram import Client, idle
 from pytgcalls import PyTgCalls
 from config import API_ID, API_HASH, STRING_SESSION
 
+# إعداد العميل
 app = Client(
     "MusicUserbot",
     api_id=API_ID,
@@ -11,13 +12,17 @@ app = Client(
     plugins=dict(root="plugins")
 )
 
+# محرك المكالمات
 call_py = PyTgCalls(app)
 
 async def start_bot():
+    print("--------------------------")
     await app.start()
     await call_py.start()
-    print("✅ تم التشغيل بنجاح!")
+    print("✅ البوت اشتغل والمكالمة جاهزة!")
+    print("--------------------------")
     await idle()
 
 if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(start_bot())
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(start_bot())
