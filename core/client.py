@@ -10,17 +10,22 @@ app = Client(
     bot_token=config.BOT_TOKEN
 )
 
-# محاولة الاستدعاء بأكثر من طريقة لتجنب ImportError
+# كود ذكي لاكتشاف المحرك مهما كان اسمه
+print(f"DEBUG: Pytgcalls content -> {dir(pytgcalls)}")
+
 try:
-    from pytgcalls import Client as PyTgCallsClient
-    call_py = PyTgCallsClient(app)
+    # المحاولة 1: الاسم القياسي للنسخ الحديثة
+    from pytgcalls import PyTgCalls
+    call_py = PyTgCalls(app)
+    print("✅ تم التشغيل باستخدام PyTgCalls")
 except ImportError:
     try:
-        from pytgcalls import PyTgCalls
-        call_py = PyTgCalls(app)
-    except ImportError:
-        # إذا فشل كل شيء، نستخدم الاستدعاء المباشر من المجلد
-        from pytgcalls.pytgcalls import PyTgCalls as PyCall
+        # المحاولة 2: الاسم القياسي للنسخ v3
+        from pytgcalls import Client as PyCall
         call_py = PyCall(app)
-
-print("✅ Cristal Music Engine: Started Successfully!")
+        print("✅ تم التشغيل باستخدام Client")
+    except ImportError:
+        # المحاولة 3: في حال كانت المكتبة داخل مجلد Scaffolding
+        from pytgcalls.main import PyTgCalls as PyCall
+        call_py = PyCall(app)
+        print("✅ تم التشغيل باستخدام main.PyTgCalls")
