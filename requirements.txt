@@ -1,6 +1,6 @@
-https://github.com/pyrogram/pyrogram/archive/v1.4.16.zip
+pyrogram==2.0.106
 tgcrypto
-https://github.com/pytgcalls/pytgcalls/archive/master.zip
-ntgcalls==1.0.1
+pytgcalls==3.0.0.dev24
+youtube-search-python
 yt-dlp
-ffmpeg-python
+httpx==0.24.1
